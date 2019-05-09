@@ -1,11 +1,13 @@
-package com.project.selim.footcalendar
+package com.project.selim.footcalendar.matchescalendar
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.project.selim.footcalendar.R
+import com.project.selim.footcalendar.data.models.MatchRequestModel
 import kotlinx.android.synthetic.main.match_list_item.view.*
 
 /**

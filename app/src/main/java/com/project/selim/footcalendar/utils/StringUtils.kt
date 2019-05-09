@@ -10,14 +10,12 @@ package com.project.selim.footcalendar.utils
 class StringUtils {
     companion object {
         fun appendStrings(vararg strings: String): String {
-            val resultString = ""
+            var resultString = ""
 
             for (s in strings) {
-                resultString.plus(s)
+                resultString += s
             }
             return resultString
         }
-
-        fun testInteroperability(value: String) = AdsStringHelper.capitalize(value)
     }
 }

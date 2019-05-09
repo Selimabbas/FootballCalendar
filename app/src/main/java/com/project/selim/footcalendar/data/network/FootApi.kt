@@ -1,7 +1,7 @@
 package com.project.selim.footcalendar.data.network
 
-import com.project.selim.footcalendar.CompetitionsRequestModel
-import com.project.selim.footcalendar.MatchRequestModel
+import com.project.selim.footcalendar.data.models.CompetitionsRequestModel
+import com.project.selim.footcalendar.data.models.MatchRequestModel
 import io.reactivex.Observable
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -30,6 +30,10 @@ interface FootApi {
     fun getCompetitions(@Query("plan") plan: String):
             Observable<CompetitionsRequestModel.Competitions>
 
+    @GET("CL/teams")
+    fun getTeams(@Query("plan") plan: String):
+            Observable<CompetitionsRequestModel.Competitions>
+
 
     companion object {
         fun create(): FootApi {
@@ -39,7 +43,7 @@ interface FootApi {
                             RxJava2CallAdapterFactory.create())
                     .addConverterFactory(
                             GsonConverterFactory.create())
-                    .baseUrl("https://api.foot-data.org/v2/")
+                    .baseUrl("https://api.football-data.org/v2/")
                     .client(makeHttpClient())
                     .build()
 
@@ -53,8 +57,8 @@ interface FootApi {
         }
 
         private fun makeHttpClient() = OkHttpClient.Builder()
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
                 .addInterceptor(headersInterceptor())
                 .build()
     }

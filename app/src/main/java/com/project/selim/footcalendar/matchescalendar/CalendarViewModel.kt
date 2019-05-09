@@ -1,21 +1,14 @@
 package com.project.selim.footcalendar.matchescalendar
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.project.selim.footcalendar.Event
 import com.project.selim.footcalendar.data.network.FootApi
-import com.project.selim.footcalendar.MatchRequestModel
+import com.project.selim.footcalendar.data.models.MatchRequestModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-/**
- * ViewModel
- * DAMN ® project.
- *
- * Created by Selim Abbas Said on 17/09/2018.
- * Copyright © 2016 Ad Scientiam. All rights reserved.
- */
 class CalendarViewModel : ViewModel() {
 
     var matches = MutableLiveData<MatchRequestModel.Matches>()

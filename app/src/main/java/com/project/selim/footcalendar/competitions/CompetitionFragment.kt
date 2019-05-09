@@ -1,35 +1,31 @@
 package com.project.selim.footcalendar.competitions
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import com.project.selim.footcalendar.CompetitionAdapter
-import com.project.selim.footcalendar.CompetitionsRequestModel
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.google.android.material.snackbar.Snackbar
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.project.selim.footcalendar.data.models.CompetitionsRequestModel
 import com.project.selim.footcalendar.R
 import kotlinx.android.synthetic.main.competition_layout.*
 
-/**
- * CompetitionActivity
- * DAMN ® project.
- *
- * Created by Selim Abbas Said on 20/09/2018.
- * Copyright © 2016 Ad Scientiam. All rights reserved.
- */
-class CompetitionActivity : AppCompatActivity() {
+class CompetitionFragment : Fragment() {
     private val competitionViewModel
             by lazy { ViewModelProviders.of(this).get(CompetitionsViewModel::class.java) }
 
     private val competitions: ArrayList<CompetitionsRequestModel.Competition> = ArrayList()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.competition_layout, container, false)
+    }
 
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.competition_layout)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initCompetitionListener()
         initRecyclerView()
         competitionViewModel.updateCompetitions()
@@ -40,28 +36,21 @@ class CompetitionActivity : AppCompatActivity() {
             competitions.clear()
             it?.competitions?.let { it1 ->
                 competitions.addAll(it1)
-                competition_list.adapter.notifyDataSetChanged()
+                competition_list.adapter?.notifyDataSetChanged()
             }
         })
 
         competitionViewModel.errorEvent.observe(this, Observer { error ->
             error?.getContentIfNotHandled()?.let { message -> showSnackbar(message) }
-/*
-            if (error != null) {
-                String content = error.getContentIfNotHandled();
-                if (content != null) {
-                    showSnackbar(content);
-                }
-            }
-*/
-
         })
 
     }
 
     private fun initRecyclerView() {
-        competition_list.layoutManager = LinearLayoutManager(this)
-        competition_list.adapter = CompetitionAdapter(competitions, this)
+        context?.let {
+            competition_list.layoutManager = LinearLayoutManager(it)
+            competition_list.adapter = CompetitionAdapter(competitions, it)
+        }
     }
 
     private fun showSnackbar(message: String) {
