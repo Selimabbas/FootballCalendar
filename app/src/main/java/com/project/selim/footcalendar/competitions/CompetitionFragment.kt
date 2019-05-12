@@ -1,16 +1,16 @@
 package com.project.selim.footcalendar.competitions
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.android.material.snackbar.Snackbar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.project.selim.footcalendar.data.models.CompetitionsRequestModel
+import com.google.android.material.snackbar.Snackbar
 import com.project.selim.footcalendar.R
+import com.project.selim.footcalendar.data.models.CompetitionsRequestModel
 import kotlinx.android.synthetic.main.competition_layout.*
 
 class CompetitionFragment : Fragment() {
@@ -28,7 +28,7 @@ class CompetitionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initCompetitionListener()
         initRecyclerView()
-        competitionViewModel.updateCompetitions()
+        competitionViewModel.loadCompetitions()
     }
 
     private fun initCompetitionListener() {

@@ -1,45 +1,44 @@
 package com.project.selim.footcalendar.data.network
 
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.project.selim.footcalendar.data.models.CompetitionsRequestModel
 import com.project.selim.footcalendar.data.models.MatchRequestModel
-import io.reactivex.Observable
+import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
-interface FootApi {
+interface FootApiCoroutines {
 
     @GET("competitions/CL/matches")
     fun getMatches():
-            Observable<MatchRequestModel.Matches>
+            Deferred<MatchRequestModel.Matches>
 
     @GET("competitions")
     fun getCompetitions(@Query("plan") plan: String):
-            Observable<CompetitionsRequestModel.Competitions>
+            Deferred<CompetitionsRequestModel.Competitions>
 
     @GET("CL/teams")
     fun getTeams(@Query("plan") plan: String):
-            Observable<CompetitionsRequestModel.Competitions>
-
+            Deferred<CompetitionsRequestModel.Competitions>
 
     companion object {
-        fun create(): FootApi {
+        fun create(): FootApiCoroutines {
 
             val retrofit = Retrofit.Builder()
-                    .addCallAdapterFactory(
-                            RxJava2CallAdapterFactory.create())
+                    .client(makeHttpClient())
+                    .baseUrl("https://api.football-data.org/v2/")
                     .addConverterFactory(
                             MoshiConverterFactory.create())
-                    .baseUrl("https://api.football-data.org/v2/")
-                    .client(makeHttpClient())
+                    .addCallAdapterFactory(
+                            CoroutineCallAdapterFactory())
                     .build()
 
-            return retrofit.create(FootApi::class.java)
+            return retrofit.create(FootApiCoroutines::class.java)
         }
 
         private fun headersInterceptor() = Interceptor { chain ->
