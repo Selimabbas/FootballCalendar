@@ -1,13 +1,12 @@
 package com.project.selim.footcalendar.teams
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import androidx.fragment.app.Fragment
 import com.project.selim.footcalendar.R
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class TeamsFragment : Fragment() {
 
@@ -15,17 +14,11 @@ class TeamsFragment : Fragment() {
         fun newInstance() = TeamsFragment()
     }
 
-    private lateinit var mViewModel: TeamsViewModel
+    private val teamsViewModel: TeamsViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.leagues_fragment, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        mViewModel = ViewModelProviders.of(this).get(TeamsViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
 }

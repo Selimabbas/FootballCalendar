@@ -1,9 +1,9 @@
 package com.project.selim.footcalendar.data.database
 
+import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import android.content.Context
 import com.project.selim.footcalendar.data.models.Competition
 
 /**
@@ -22,19 +22,16 @@ abstract class FootDatabase : RoomDatabase() {
     companion object {
         private var INSTANCE: FootDatabase? = null
 
-        fun getInstance(context: Context): FootDatabase? {
-            if (INSTANCE == null) {
-                synchronized(FootDatabase::class) {
-                    INSTANCE = Room.databaseBuilder(context.applicationContext,
-                            FootDatabase::class.java, "foot.db")
-                            .build()
-                }
+        fun getDatabase(context: Context): FootDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    FootDatabase::class.java, "foot.db"
+                )
+                    .build()
+                INSTANCE = instance
+                instance
             }
-            return INSTANCE
-        }
-
-        fun destroyInstance() {
-            INSTANCE = null
         }
     }
 }

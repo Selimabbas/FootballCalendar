@@ -8,13 +8,11 @@ import com.project.selim.footcalendar.data.models.Matches
 import com.project.selim.footcalendar.data.network.ApiResult
 import kotlinx.coroutines.*
 
-class CalendarViewModel : ViewModel() {
+class CalendarViewModel(private val repository: FootRepository) : ViewModel() {
 
     var matches = MutableLiveData<Matches>()
 
     val errorEvent = MutableLiveData<Event<String>>()
-
-    private val repository = FootRepository()
 
     private var myJob: Job? = null
 

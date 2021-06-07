@@ -3,7 +3,6 @@ package com.project.selim.footcalendar.data
 import com.project.selim.footcalendar.data.network.ApiResult
 import com.project.selim.footcalendar.data.network.FootApi
 import com.project.selim.footcalendar.data.network.createNetwork
-import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import java.io.IOException
 

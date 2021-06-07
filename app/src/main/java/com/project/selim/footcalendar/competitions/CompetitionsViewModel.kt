@@ -9,12 +9,11 @@ import com.project.selim.footcalendar.data.network.ApiPlan
 import com.project.selim.footcalendar.data.network.ApiResult
 import kotlinx.coroutines.*
 
-class CompetitionsViewModel : ViewModel() {
+class CompetitionsViewModel(private val repository: FootRepository) : ViewModel() {
     var competitions = MutableLiveData<Competitions>()
 
     val errorEvent = MutableLiveData<Event<String>>()
 
-    private val repository = FootRepository()
 
     private var myJob: Job? = null
 

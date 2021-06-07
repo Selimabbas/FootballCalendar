@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.project.selim.footcalendar.R
 import com.project.selim.footcalendar.data.models.Match
 import kotlinx.android.synthetic.main.matches_calendar_layout.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 /**
@@ -24,8 +24,7 @@ import kotlinx.android.synthetic.main.matches_calendar_layout.*
 
 class CalendarFragment : Fragment() {
 
-    private val footViewModel
-            by lazy { ViewModelProviders.of(this).get(CalendarViewModel::class.java) }
+    private val calendarViewModel: CalendarViewModel by viewModel()
 
     private val matches: ArrayList<Match> = ArrayList()
 
@@ -40,11 +39,11 @@ class CalendarFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initMatchesListener()
         initRecyclerView()
-        footViewModel.callNetwork()
+        calendarViewModel.callNetwork()
     }
 
     private fun initMatchesListener() {
-        footViewModel.matches.observe(viewLifecycleOwner) {
+        calendarViewModel.matches.observe(viewLifecycleOwner) {
             matches.clear()
             it?.matches?.let { it1 ->
                 matches.addAll(it1)
@@ -52,7 +51,7 @@ class CalendarFragment : Fragment() {
             }
         }
 
-        footViewModel.errorEvent.observe(viewLifecycleOwner) { error ->
+        calendarViewModel.errorEvent.observe(viewLifecycleOwner) { error ->
             error?.getContentIfNotHandled()?.let { message -> showSnackbar(message) }
         }
 
