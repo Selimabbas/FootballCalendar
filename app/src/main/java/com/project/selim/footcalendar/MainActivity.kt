@@ -35,7 +35,6 @@ class MainActivity : AppCompatActivity() {
 
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
         navView.selectedItemId = R.id.calendar
-
     }
 
     private fun addFragment(fragment: Fragment) {

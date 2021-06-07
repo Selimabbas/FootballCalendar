@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.project.selim.footcalendar.R
-import com.project.selim.footcalendar.data.models.MatchRequestModel
+import com.project.selim.footcalendar.data.models.Match
 import kotlinx.android.synthetic.main.match_list_item.view.*
 
 /**
@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.match_list_item.view.*
  * Created by Selim Abbas Said on 17/09/2018.
  * Copyright © 2016 Ad Scientiam. All rights reserved.
  */
-class MatchAdapter(private val items : ArrayList<MatchRequestModel.Match>,
+class MatchAdapter(private val items : ArrayList<Match>,
                    private val context: Context) :
         RecyclerView.Adapter<MatchViewHolder>() {
 

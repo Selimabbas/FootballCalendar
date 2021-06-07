@@ -3,41 +3,34 @@ package com.project.selim.footcalendar.competitions
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.project.selim.footcalendar.Event
-import com.project.selim.footcalendar.data.models.CompetitionsRequestModel
+import com.project.selim.footcalendar.data.FootRepository
+import com.project.selim.footcalendar.data.models.Competitions
 import com.project.selim.footcalendar.data.network.ApiPlan
-import com.project.selim.footcalendar.data.network.FootApiCoroutines
+import com.project.selim.footcalendar.data.network.ApiResult
 import kotlinx.coroutines.*
 
 class CompetitionsViewModel : ViewModel() {
-    var competitions = MutableLiveData<CompetitionsRequestModel.Competitions>()
+    var competitions = MutableLiveData<Competitions>()
 
     val errorEvent = MutableLiveData<Event<String>>()
 
-    private val footApiServe by lazy {
-        FootApiCoroutines.create()
-    }
+    private val repository = FootRepository()
 
     private var myJob: Job? = null
 
     fun loadCompetitions() {
         myJob = CoroutineScope(Dispatchers.IO).launch {
-            val result = footApiServe.getCompetitions(ApiPlan.TIER_ONE.name).await()
+            val result = repository.getCompetitions(ApiPlan.TIER_ONE)
             withContext(Dispatchers.Main) {
-                setCompetitions(result)
+                when (result) {
+                    is ApiResult.Error -> setError(result.exception)
+                    is ApiResult.Success -> setCompetitions(result.data)
+                }
             }
         }
-        /*
-        footApiServe.getCompetitions(ApiPlan.TIER_ONE.name)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { result -> setCompetitions(result) },
-                        { error -> setError(error) }
-                )
-*/
     }
 
-    private fun setCompetitions(competitions: CompetitionsRequestModel.Competitions) {
+    private fun setCompetitions(competitions: Competitions) {
         this.competitions.value = competitions
     }
 

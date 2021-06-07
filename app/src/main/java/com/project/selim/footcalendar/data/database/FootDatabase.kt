@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import android.content.Context
-import com.project.selim.footcalendar.data.models.CompetitionsRequestModel
+import com.project.selim.footcalendar.data.models.Competition
 
 /**
  * FootDatabase
@@ -14,7 +14,7 @@ import com.project.selim.footcalendar.data.models.CompetitionsRequestModel
  * Copyright © 2016 Ad Scientiam. All rights reserved.
  */
 
-@Database(entities = [CompetitionsRequestModel.Competition::class], version = 1)
+@Database(entities = [Competition::class], version = 1)
 abstract class FootDatabase : RoomDatabase() {
 
     abstract fun footDataDao(): FootDataDao

@@ -3,35 +3,35 @@ package com.project.selim.footcalendar.matchescalendar
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.project.selim.footcalendar.Event
-import com.project.selim.footcalendar.data.network.FootApi
-import com.project.selim.footcalendar.data.models.MatchRequestModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import com.project.selim.footcalendar.data.FootRepository
+import com.project.selim.footcalendar.data.models.Matches
+import com.project.selim.footcalendar.data.network.ApiResult
+import kotlinx.coroutines.*
 
 class CalendarViewModel : ViewModel() {
 
-    var matches = MutableLiveData<MatchRequestModel.Matches>()
+    var matches = MutableLiveData<Matches>()
 
     val errorEvent = MutableLiveData<Event<String>>()
 
-    private val footApiServe by lazy {
-        FootApi.create()
-    }
-    private var disposable: Disposable? = null
+    private val repository = FootRepository()
+
+    private var myJob: Job? = null
 
     fun callNetwork() {
-        disposable = footApiServe.getMatches()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { result -> setMatches(result) },
-                        { error -> setError(error) }
-                )
+        myJob = CoroutineScope(Dispatchers.IO).launch {
+            val result = repository.getMatches()
+            withContext(Dispatchers.Main) {
+                when (result) {
+                    is ApiResult.Error -> setError(result.exception)
+                    is ApiResult.Success -> setMatches(result.data)
+                }
 
+            }
+        }
     }
 
-    private fun setMatches(matches: MatchRequestModel.Matches) {
+    private fun setMatches(matches: Matches) {
         this.matches.value = matches
     }
 

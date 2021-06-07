@@ -10,14 +10,14 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.project.selim.footcalendar.R
-import com.project.selim.footcalendar.data.models.CompetitionsRequestModel
+import com.project.selim.footcalendar.data.models.Competition
 import kotlinx.android.synthetic.main.competition_layout.*
 
 class CompetitionFragment : Fragment() {
     private val competitionViewModel
             by lazy { ViewModelProviders.of(this).get(CompetitionsViewModel::class.java) }
 
-    private val competitions: ArrayList<CompetitionsRequestModel.Competition> = ArrayList()
+    private val competitions: ArrayList<Competition> = ArrayList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -32,17 +32,17 @@ class CompetitionFragment : Fragment() {
     }
 
     private fun initCompetitionListener() {
-        competitionViewModel.competitions.observe(this, Observer {
+        competitionViewModel.competitions.observe(viewLifecycleOwner) {
             competitions.clear()
             it?.competitions?.let { it1 ->
                 competitions.addAll(it1)
                 competition_list.adapter?.notifyDataSetChanged()
             }
-        })
+        }
 
-        competitionViewModel.errorEvent.observe(this, Observer { error ->
+        competitionViewModel.errorEvent.observe(viewLifecycleOwner) { error ->
             error?.getContentIfNotHandled()?.let { message -> showSnackbar(message) }
-        })
+        }
 
     }
 

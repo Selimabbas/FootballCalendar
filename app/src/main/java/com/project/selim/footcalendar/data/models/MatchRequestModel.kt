@@ -1,7 +1,13 @@
 package com.project.selim.footcalendar.data.models
 
-object MatchRequestModel {
-    data class Matches(val matches:List<Match>)
-    data class Team(val id: Int, val name: String)
-    data class Match(val id: Int, val homeTeam: Team, val awayTeam: Team)
-}
+import com.google.gson.annotations.SerializedName
+
+data class Matches(@SerializedName("matches") val matches: List<Match>)
+
+data class MatchTeam(@SerializedName("id") val id: Int, @SerializedName("name") val name: String)
+
+data class Match(
+    @SerializedName("id") val id: Int,
+    @SerializedName("homeTeam") val homeTeam: MatchTeam,
+    @SerializedName("awayTeam") val awayTeam: MatchTeam
+)

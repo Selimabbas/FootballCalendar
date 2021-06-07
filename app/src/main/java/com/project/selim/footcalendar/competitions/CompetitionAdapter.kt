@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.project.selim.footcalendar.R
-import com.project.selim.footcalendar.data.models.CompetitionsRequestModel
+import com.project.selim.footcalendar.data.models.Competition
 import com.project.selim.footcalendar.utils.StringUtils
 import kotlinx.android.synthetic.main.competition_list_item.view.*
 
-class CompetitionAdapter(private val items: ArrayList<CompetitionsRequestModel.Competition>,
+class CompetitionAdapter(private val items: ArrayList<Competition>,
                          private val context: Context) :
         RecyclerView.Adapter<CompetitionViewHolder>() {
 
